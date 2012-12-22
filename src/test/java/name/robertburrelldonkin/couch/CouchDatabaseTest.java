@@ -24,11 +24,14 @@ import org.junit.Test;
 public class CouchDatabaseTest {
 
 	@Test
-	public void testGetBaseURL() {
-		String host = "127.0.0.1";
-		int port = 5984;
-		String name = "fun";
-		assertThat(CouchDatabaseBuilder.aCouchDatabase().atHost(host).atPort(port).withName(name).build().getDataBaseUrl(), is("http://127.0.0.1:5984/fun"));
+	public void testGetDataBaseURL() {
+		assertThat(CouchDatabaseBuilder.aCouchDatabase().atHost("127.0.0.1").atPort(5984).withName("fun").build().getDataBaseUrl(), is("http://127.0.0.1:5984/fun"));
+	}
+
+
+	@Test
+	public void testGetCouchURL() {
+		assertThat(CouchDatabaseBuilder.aCouchDatabase().atHost("127.0.0.1").atPort(5984).withName("fun").build().getCouchUrl(), is("http://127.0.0.1:5984/"));
 	}
 
 }

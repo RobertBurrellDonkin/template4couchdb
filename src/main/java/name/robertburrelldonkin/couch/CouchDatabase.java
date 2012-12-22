@@ -23,7 +23,8 @@ public class CouchDatabase {
 	private final String host;
 	private final int port;
 	private final String name;
-	private final String url;
+	private final String databaseUrl;
+	private final String couchUrl;
 	
 	public CouchDatabase(final String name) {
 		this(DEFAULT_HOST, DEFAULT_PORT, name);
@@ -34,7 +35,8 @@ public class CouchDatabase {
 		this.host = host;
 		this.port = port;
 		this.name = name;
-		this.url = "http://" + host + ":" + port + "/" + name;
+		this.couchUrl = "http://" + host + ":" + port + "/";
+		this.databaseUrl = couchUrl + name;
 	}
 
 	public String getHost() {
@@ -50,6 +52,10 @@ public class CouchDatabase {
 	}
 	
 	public String getDataBaseUrl() {
-		return url;
+		return databaseUrl;
+	}
+
+	public String getCouchUrl() {
+		return couchUrl;
 	}
 }
