@@ -33,6 +33,11 @@
   <bean id="couchDBTemplate" class="name.robertburrelldonkin.couch.CouchDBTemplate"
   	destroy-method="shutdown">
   	<constructor-arg name='httpClient' ref='httpClient'></constructor-arg>
+  	<constructor-arg name='database'>
+  		<bean class='name.robertburrelldonkin.couch.CouchDatabase'>
+  			<constructor-arg name='name' value="sample"></constructor-arg>
+  		</bean>
+  	</constructor-arg>
   </bean>
 
 </beans>

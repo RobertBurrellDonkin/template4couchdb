@@ -15,24 +15,20 @@
 */
 package name.robertburrelldonkin.couch;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.conn.ClientConnectionManager;
+import static org.hamcrest.CoreMatchers.*;
 
-public class CouchDBTemplate {
+import static org.junit.Assert.*;
 
-	private final HttpClient httpClient;
-	private final CouchDatabase database;
+import org.junit.Test;
 
-	public CouchDBTemplate(final HttpClient httpClient, final CouchDatabase database) {
-		super();
-		this.httpClient = httpClient;
-		this.database = database;
+public class CouchDatabaseTest {
+
+	@Test
+	public void testGetBaseURL() {
+		String host = "127.0.0.1";
+		int port = 5984;
+		String name = "fun";
+		assertThat(CouchDatabaseBuilder.aCouchDatabase().atHost(host).atPort(port).withName(name).build().getDataBaseUrl(), is("http://127.0.0.1:5984/fun"));
 	}
 
-	public void shutdown() {
-		final ClientConnectionManager connectionManager = this.httpClient.getConnectionManager();
-		if (connectionManager != null) {
-			connectionManager.shutdown();
-		}
-	}
 }

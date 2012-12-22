@@ -28,7 +28,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CouchDBTemplateTest {
-
+	
+	CouchDatabase couchDatabase;
+	
 	@Mock
 	HttpClient client;
 	
@@ -39,7 +41,8 @@ public class CouchDBTemplateTest {
 	
 	@Before
 	public void before() {
-		this.subject = new CouchDBTemplate(client);
+		couchDatabase = CouchDatabaseBuilder.aCouchDatabase().build();
+		this.subject = new CouchDBTemplate(client, couchDatabase);
 	}
 	
 	@Test
