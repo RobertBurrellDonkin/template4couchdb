@@ -30,7 +30,7 @@
   	<constructor-arg ref='httpClientConnectionManager'/>
   </bean>
 
-  <bean id="couchTemplate" class="name.robertburrelldonkin.couch.CouchTemplate"
+  <bean id="couchDBTemplate" class="name.robertburrelldonkin.couch.CouchDBTemplate"
   	destroy-method="shutdown">
   	<constructor-arg name='httpClient' ref='httpClient'></constructor-arg>
   </bean>

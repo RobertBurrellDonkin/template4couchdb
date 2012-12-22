@@ -26,6 +26,6 @@ public class App
     }
     
     public static  ApplicationContext load() {
-    	return new ClassPathXmlApplicationContext("couch-context.xml");
+    	return new ClassPathXmlApplicationContext("couchdb-context.xml");
     }
 }

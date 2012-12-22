@@ -18,11 +18,11 @@ package name.robertburrelldonkin.couch;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;
 
-public class CouchTemplate {
+public class CouchDBTemplate {
 
 	private final HttpClient httpClient;
 
-	public CouchTemplate(final HttpClient httpClient) {
+	public CouchDBTemplate(final HttpClient httpClient) {
 		super();
 		this.httpClient = httpClient;
 	}

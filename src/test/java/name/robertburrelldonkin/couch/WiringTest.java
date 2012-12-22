@@ -24,6 +24,6 @@ public class WiringTest {
 
 	@Test
 	public void smoke() {
-		assertNotNull(App.load().getBean(CouchTemplate.class));
+		assertNotNull(App.load().getBean(CouchDBTemplate.class));
 	}
 }

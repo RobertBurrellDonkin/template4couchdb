@@ -27,7 +27,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CouchTemplateTest {
+public class CouchDBTemplateTest {
 
 	@Mock
 	HttpClient client;
@@ -35,11 +35,11 @@ public class CouchTemplateTest {
 	@Mock
 	ClientConnectionManager connectionManager;
 	
-	CouchTemplate subject;
+	CouchDBTemplate subject;
 	
 	@Before
 	public void before() {
-		this.subject = new CouchTemplate(client);
+		this.subject = new CouchDBTemplate(client);
 	}
 	
 	@Test
