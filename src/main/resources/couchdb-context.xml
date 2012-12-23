@@ -33,7 +33,7 @@
   <bean id="couchDBTemplate" class="name.robertburrelldonkin.couch.CouchDBTemplate"
   	destroy-method="shutdown">
   	<constructor-arg name='restClient'>
-  		<bean class='name.robertburrelldonkin.couch.HttpClientRestClient'>
+  		<bean class='name.robertburrelldonkin.couch.rest.HttpClientRestClient'>
   			<constructor-arg name='httpClient' ref='httpClient'></constructor-arg>
   		</bean>
   	</constructor-arg>
