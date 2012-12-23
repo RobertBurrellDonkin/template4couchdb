@@ -1,8 +1,8 @@
-package name.robertburrelldonkin.couch.rest;
+package name.robertburrelldonkin.template4couchdb.rest;
 
 import org.apache.http.client.ResponseHandler;
 
-import name.robertburrelldonkin.couch.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
 
 public interface IResponseHandlerFactory {
 

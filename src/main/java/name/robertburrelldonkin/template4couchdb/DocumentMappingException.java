@@ -13,11 +13,16 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package name.robertburrelldonkin.couch;
+package name.robertburrelldonkin.template4couchdb;
 
-public interface IRestClient {
+import java.io.IOException;
 
-	<T> T get(final String url, final IDocumentMapper<T> mapper);
+public class DocumentMappingException extends RuntimeException {
 
-	void shutdown();
+	private static final long serialVersionUID = -8099308729696362474L;
+
+	public DocumentMappingException(final IOException e) {
+		super(e);
+	}
+
 }

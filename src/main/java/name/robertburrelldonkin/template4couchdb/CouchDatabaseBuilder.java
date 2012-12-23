@@ -13,9 +13,9 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package name.robertburrelldonkin.couch;
+package name.robertburrelldonkin.template4couchdb;
 
-import static name.robertburrelldonkin.couch.CouchDatabase.*;
+import static name.robertburrelldonkin.template4couchdb.CouchDatabase.*;
 
 public class CouchDatabaseBuilder {
 

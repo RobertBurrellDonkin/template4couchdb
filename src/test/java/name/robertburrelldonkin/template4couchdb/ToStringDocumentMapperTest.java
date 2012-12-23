@@ -13,7 +13,7 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package name.robertburrelldonkin.couch;
+package name.robertburrelldonkin.template4couchdb;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -22,6 +22,9 @@ import static org.mockito.Mockito.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import name.robertburrelldonkin.template4couchdb.DocumentMappingException;
+import name.robertburrelldonkin.template4couchdb.ToStringDocumentMapper;
 
 import org.junit.Before;
 import org.junit.Test;

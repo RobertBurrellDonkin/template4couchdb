@@ -1,4 +1,4 @@
-package name.robertburrelldonkin.couch;
+package name.robertburrelldonkin.template4couchdb;
 
 import java.io.IOException;
 import java.io.InputStream;

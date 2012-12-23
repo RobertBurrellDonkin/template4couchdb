@@ -30,18 +30,18 @@
   	<constructor-arg ref='httpClientConnectionManager'/>
   </bean>
 
-  <bean id="couchDBTemplate" class="name.robertburrelldonkin.couch.CouchDBTemplate"
+  <bean id="couchDBTemplate" class="name.robertburrelldonkin.template4couchdb.CouchDBTemplate"
   	destroy-method="shutdown">
   	<constructor-arg name='restClient'>
-  		<bean class='name.robertburrelldonkin.couch.rest.HttpClientRestClient'>
+  		<bean class='name.robertburrelldonkin.template4couchdb.rest.HttpClientRestClient'>
   			<constructor-arg name='httpClient' ref='httpClient'></constructor-arg>
   			<constructor-arg name='responseHandlerFactory' >
-  			<bean class="name.robertburrelldonkin.couch.rest.DefaultResponseHandlerFactory"></bean>
+  			<bean class="name.robertburrelldonkin.template4couchdb.rest.DefaultResponseHandlerFactory"></bean>
   			</constructor-arg>
   		</bean>
   	</constructor-arg>
   	<constructor-arg name='database'>
-  		<bean class='name.robertburrelldonkin.couch.CouchDatabase'>
+  		<bean class='name.robertburrelldonkin.template4couchdb.CouchDatabase'>
   			<constructor-arg name='name' value="sample"></constructor-arg>
   		</bean>
   	</constructor-arg>

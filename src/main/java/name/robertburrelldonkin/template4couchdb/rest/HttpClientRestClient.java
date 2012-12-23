@@ -13,12 +13,12 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package name.robertburrelldonkin.couch.rest;
+package name.robertburrelldonkin.template4couchdb.rest;
 
 import java.io.IOException;
 
-import name.robertburrelldonkin.couch.IDocumentMapper;
-import name.robertburrelldonkin.couch.IRestClient;
+import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IRestClient;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;

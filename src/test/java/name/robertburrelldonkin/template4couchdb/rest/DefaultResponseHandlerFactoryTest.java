@@ -1,9 +1,10 @@
-package name.robertburrelldonkin.couch.rest;
+package name.robertburrelldonkin.template4couchdb.rest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-import name.robertburrelldonkin.couch.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.rest.DefaultResponseHandlerFactory;
 
 import org.junit.Before;
 import org.junit.Test;

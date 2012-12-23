@@ -13,7 +13,7 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package name.robertburrelldonkin.couch.rest;
+package name.robertburrelldonkin.template4couchdb.rest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -25,7 +25,10 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.net.URI;
 
-import name.robertburrelldonkin.couch.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.rest.HttpClientRestClient;
+import name.robertburrelldonkin.template4couchdb.rest.HttpClientRestClientException;
+import name.robertburrelldonkin.template4couchdb.rest.IResponseHandlerFactory;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;

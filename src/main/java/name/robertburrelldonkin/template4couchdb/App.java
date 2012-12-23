@@ -13,16 +13,21 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package name.robertburrelldonkin.couch;
+package name.robertburrelldonkin.template4couchdb;
 
-import java.io.IOException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class DocumentMappingException extends RuntimeException {
-
-	private static final long serialVersionUID = -8099308729696362474L;
-
-	public DocumentMappingException(final IOException e) {
-		super(e);
-	}
-
+public class App 
+{
+    public static void main( String[] args )
+    {
+    	ApplicationContext context = load();
+    	CouchDBTemplate template = context.getBean(CouchDBTemplate.class);
+    	System.out.println(template.version(new ToStringDocumentMapper()));
+    }
+    
+    public static  ApplicationContext load() {
+    	return new ClassPathXmlApplicationContext("couchdb-context.xml");
+    }
 }

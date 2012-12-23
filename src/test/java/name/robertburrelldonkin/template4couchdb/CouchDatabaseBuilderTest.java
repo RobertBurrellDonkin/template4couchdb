@@ -1,7 +1,9 @@
-package name.robertburrelldonkin.couch;
+package name.robertburrelldonkin.template4couchdb;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+
+import name.robertburrelldonkin.template4couchdb.CouchDatabaseBuilder;
 
 import org.junit.Test;
 

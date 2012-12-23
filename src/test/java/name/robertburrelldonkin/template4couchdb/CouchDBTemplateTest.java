@@ -13,12 +13,18 @@
 *   See the License for the specific language governing permissions and
 *   limitations under the License.
 */
-package name.robertburrelldonkin.couch;
+package name.robertburrelldonkin.template4couchdb;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 
 import static org.junit.Assert.*;
+
+import name.robertburrelldonkin.template4couchdb.CouchDBTemplate;
+import name.robertburrelldonkin.template4couchdb.CouchDatabase;
+import name.robertburrelldonkin.template4couchdb.CouchDatabaseBuilder;
+import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IRestClient;
 
 import org.junit.Before;
 import org.junit.Test;

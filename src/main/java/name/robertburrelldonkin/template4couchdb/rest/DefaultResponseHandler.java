@@ -1,9 +1,9 @@
-package name.robertburrelldonkin.couch.rest;
+package name.robertburrelldonkin.template4couchdb.rest;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import name.robertburrelldonkin.couch.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;

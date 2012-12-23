@@ -1,4 +1,4 @@
-package name.robertburrelldonkin.couch.rest;
+package name.robertburrelldonkin.template4couchdb.rest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -9,7 +9,9 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.InputStream;
 
-import name.robertburrelldonkin.couch.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.rest.DefaultResponseHandler;
+import name.robertburrelldonkin.template4couchdb.rest.UnsupportedHttpResponseStatusException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

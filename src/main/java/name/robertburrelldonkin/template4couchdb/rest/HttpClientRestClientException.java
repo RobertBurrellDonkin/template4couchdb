@@ -1,4 +1,4 @@
-package name.robertburrelldonkin.couch.rest;
+package name.robertburrelldonkin.template4couchdb.rest;
 
 import java.io.IOException;
 

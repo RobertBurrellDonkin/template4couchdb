@@ -1,6 +1,6 @@
-package name.robertburrelldonkin.couch.rest;
+package name.robertburrelldonkin.template4couchdb.rest;
 
-import name.robertburrelldonkin.couch.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
 
 
 public class DefaultResponseHandlerFactory implements IResponseHandlerFactory {
