@@ -59,4 +59,11 @@ public class CouchDBTemplateTest {
 		assertThat(this.subject.get(id, mapper), is(result));
 		verify(this.client).get(couchDatabase.urlFor(id), mapper);
 	}
+	
+	@Test
+	public void testDelegateVersionToRestClient() {
+		String result = "{some: 'stuff'}";
+		when(this.client.get((String)anyObject(), eq(mapper))).thenReturn(result);
+		assertThat(this.subject.get(couchDatabase.getCouchUrl(), mapper), is(result));
+	}
 }

@@ -34,4 +34,8 @@ public class CouchDBTemplate {
 	public <T> T get(final String documentId, final IDocumentMapper<T> mapper) {
 		return restClient.get(database.urlFor(documentId), mapper);
 	}
+	
+	public <T> T version(final IDocumentMapper<T> mapper) {
+		return restClient.get(database.getCouchUrl(), mapper);
+	}
 }
