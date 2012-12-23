@@ -15,23 +15,39 @@
 */
 package name.robertburrelldonkin.couch.rest;
 
+import java.io.IOException;
+
 import name.robertburrelldonkin.couch.IDocumentMapper;
 import name.robertburrelldonkin.couch.IRestClient;
 
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ClientConnectionManager;
 
 public class HttpClientRestClient implements IRestClient {
 
+	private final IResponseHandlerFactory responseHandlerFactory;
+	
 	private final HttpClient httpClient;
 	
-	public HttpClientRestClient(HttpClient httpClient) {
+	public HttpClientRestClient(final HttpClient httpClient, 
+			final IResponseHandlerFactory responseHandlerFactory) {
 		super();
 		this.httpClient = httpClient;
+		this.responseHandlerFactory = responseHandlerFactory;
 	}
 
-	public <T> T get(String url, IDocumentMapper<T> mapper) {
-		return null;
+	public <T> T get(final String url, final IDocumentMapper<T> mapper) {
+		final ResponseHandler<T> handler = responseHandlerFactory.handlerFor(mapper);
+		try {
+			return httpClient.execute(new HttpGet(url), handler);
+		} catch (ClientProtocolException e) {
+			throw new HttpClientRestClientException(e);
+		} catch (IOException e) {
+			throw new HttpClientRestClientException(e);
+		}
 	}
 
 

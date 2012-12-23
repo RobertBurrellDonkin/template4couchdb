@@ -35,6 +35,9 @@
   	<constructor-arg name='restClient'>
   		<bean class='name.robertburrelldonkin.couch.rest.HttpClientRestClient'>
   			<constructor-arg name='httpClient' ref='httpClient'></constructor-arg>
+  			<constructor-arg name='responseHandlerFactory' >
+  			<bean class="name.robertburrelldonkin.couch.rest.DefaultResponseHandlerFactory"></bean>
+  			</constructor-arg>
   		</bean>
   	</constructor-arg>
   	<constructor-arg name='database'>
