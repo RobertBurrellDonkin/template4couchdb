@@ -16,9 +16,12 @@
 package name.robertburrelldonkin.couch;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import static org.junit.Assert.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,36 +30,29 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CouchDBTemplateTest {
-	
-	CouchDatabase couchDatabase;
-	
+public class ToStringDocumentMapperTest {
+
 	@Mock
-	IRestClient client;
+	InputStream source;
 	
-	@Mock
-	IDocumentMapper<String> mapper;
-	
-	CouchDBTemplate subject;
+	ToStringDocumentMapper subject;
 	
 	@Before
 	public void before() {
-		couchDatabase = CouchDatabaseBuilder.aCouchDatabase().build();
-		this.subject = new CouchDBTemplate(client, couchDatabase);
+		this.subject = new ToStringDocumentMapper();
 	}
 	
 	@Test
-	public void testShutdownShutsDownClient() {
-		this.subject.shutdown();
-		verify(this.client).shutdown();
+	public void testMap() {
+		String string = "{name: me}";
+		assertThat(this.subject.map(new ByteArrayInputStream(string.getBytes())), is(string));
 	}
-	
-	@Test
-	public void testDelegateGetToRestClient() {
-		String id = "doc/23234";
-		String result = "{some: 'stuff'}";
-		when(this.client.get((String)anyObject(), eq(mapper))).thenReturn(result);
-		assertThat(this.subject.get(id, mapper), is(result));
-		verify(this.client).get(couchDatabase.urlFor(id), mapper);
+
+	@Test(expected = DocumentMappingException.class)
+	public void testThatIOExceptionIsRethrown() throws IOException {
+		when(source.read()).thenThrow(new IOException());
+		when(source.available()).thenThrow(new IOException());
+		when(source.read((byte[]) anyObject())).thenThrow(new IOException());
+		this.subject.map(source);
 	}
 }

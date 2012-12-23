@@ -15,23 +15,14 @@
 */
 package name.robertburrelldonkin.couch;
 
+import java.io.IOException;
 
-public class CouchDBTemplate {
+public class DocumentMappingException extends RuntimeException {
 
-	private final IRestClient restClient;
-	private final CouchDatabase database;
+	private static final long serialVersionUID = -8099308729696362474L;
 
-	public CouchDBTemplate(IRestClient restClient, final CouchDatabase database) {
-		super();
-		this.restClient = restClient;
-		this.database = database;
+	public DocumentMappingException(final IOException e) {
+		super(e);
 	}
 
-	public void shutdown() {
-		restClient.shutdown();
-	}
-	
-	public <T> T get(final String documentId, final IDocumentMapper<T> mapper) {
-		return restClient.get(database.urlFor(documentId), mapper);
-	}
 }

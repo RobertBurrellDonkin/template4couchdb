@@ -58,4 +58,13 @@ public class CouchDatabase {
 	public String getCouchUrl() {
 		return couchUrl;
 	}
+
+	public String urlFor(String id) {
+		final StringBuilder builder = new StringBuilder(databaseUrl);
+		if (!databaseUrl.endsWith("/")) {
+			builder.append("/");
+		}
+		builder.append(id);
+		return builder.toString();
+	}
 }

@@ -15,23 +15,9 @@
 */
 package name.robertburrelldonkin.couch;
 
+public interface IRestClient {
 
-public class CouchDBTemplate {
+	<T> T get(final String url, final IDocumentMapper<T> mapper);
 
-	private final IRestClient restClient;
-	private final CouchDatabase database;
-
-	public CouchDBTemplate(IRestClient restClient, final CouchDatabase database) {
-		super();
-		this.restClient = restClient;
-		this.database = database;
-	}
-
-	public void shutdown() {
-		restClient.shutdown();
-	}
-	
-	public <T> T get(final String documentId, final IDocumentMapper<T> mapper) {
-		return restClient.get(database.urlFor(documentId), mapper);
-	}
+	void shutdown();
 }

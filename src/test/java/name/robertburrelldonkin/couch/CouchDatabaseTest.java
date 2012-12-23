@@ -34,4 +34,8 @@ public class CouchDatabaseTest {
 		assertThat(CouchDatabaseBuilder.aCouchDatabase().atHost("127.0.0.1").atPort(5984).withName("fun").build().getCouchUrl(), is("http://127.0.0.1:5984/"));
 	}
 
+	@Test
+	public void testUrlFor() {
+		assertThat(CouchDatabaseBuilder.aCouchDatabase().atHost("127.0.0.1").atPort(5984).withName("fun").build().urlFor("docId"), is("http://127.0.0.1:5984/fun/docId"));
+	}
 }

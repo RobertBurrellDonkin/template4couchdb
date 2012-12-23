@@ -15,48 +15,43 @@
 */
 package name.robertburrelldonkin.couch;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 
-import static org.junit.Assert.*;
-
+import org.apache.http.client.HttpClient;
+import org.apache.http.conn.ClientConnectionManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CouchDBTemplateTest {
-	
-	CouchDatabase couchDatabase;
+public class HttpClientRestClientTest {
 	
 	@Mock
-	IRestClient client;
+	HttpClient client;
 	
 	@Mock
-	IDocumentMapper<String> mapper;
+	ClientConnectionManager connectionManager;
 	
-	CouchDBTemplate subject;
+	HttpClientRestClient subject;
 	
 	@Before
 	public void before() {
-		couchDatabase = CouchDatabaseBuilder.aCouchDatabase().build();
-		this.subject = new CouchDBTemplate(client, couchDatabase);
+		this.subject = new HttpClientRestClient(client);
 	}
 	
 	@Test
 	public void testShutdownShutsDownClient() {
+		when(client.getConnectionManager()).thenReturn(connectionManager);
 		this.subject.shutdown();
-		verify(this.client).shutdown();
+		verify(this.connectionManager).shutdown();
 	}
 	
 	@Test
-	public void testDelegateGetToRestClient() {
-		String id = "doc/23234";
-		String result = "{some: 'stuff'}";
-		when(this.client.get((String)anyObject(), eq(mapper))).thenReturn(result);
-		assertThat(this.subject.get(id, mapper), is(result));
-		verify(this.client).get(couchDatabase.urlFor(id), mapper);
+	public void smokeShutdownWhenManagerIsNull() {
+		when(client.getConnectionManager()).thenReturn(null);
+		this.subject.shutdown();
 	}
 }

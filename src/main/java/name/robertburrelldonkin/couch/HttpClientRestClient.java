@@ -15,23 +15,27 @@
 */
 package name.robertburrelldonkin.couch;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.conn.ClientConnectionManager;
 
-public class CouchDBTemplate {
+public class HttpClientRestClient implements IRestClient {
 
-	private final IRestClient restClient;
-	private final CouchDatabase database;
-
-	public CouchDBTemplate(IRestClient restClient, final CouchDatabase database) {
+	private final HttpClient httpClient;
+	
+	public HttpClientRestClient(HttpClient httpClient) {
 		super();
-		this.restClient = restClient;
-		this.database = database;
+		this.httpClient = httpClient;
 	}
+
+	public <T> T get(String url, IDocumentMapper<T> mapper) {
+		return null;
+	}
+
 
 	public void shutdown() {
-		restClient.shutdown();
-	}
-	
-	public <T> T get(final String documentId, final IDocumentMapper<T> mapper) {
-		return restClient.get(database.urlFor(documentId), mapper);
+		final ClientConnectionManager connectionManager = this.httpClient.getConnectionManager();
+		if (connectionManager != null) {
+			connectionManager.shutdown();
+		}
 	}
 }
