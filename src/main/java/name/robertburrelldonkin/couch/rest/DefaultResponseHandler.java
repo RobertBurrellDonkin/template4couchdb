@@ -8,8 +8,11 @@ import name.robertburrelldonkin.couch.IDocumentMapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.util.EntityUtils;
 
 public class DefaultResponseHandler<T> implements ResponseHandler<T> {
 
@@ -27,7 +30,13 @@ public class DefaultResponseHandler<T> implements ResponseHandler<T> {
 		final InputStream content = entity.getContent();
 		final T result;
 		try {
-			result = mapper.map(content);
+			final StatusLine status = response.getStatusLine();
+			if (status.getStatusCode() == HttpStatus.SC_OK) {
+				result = mapper.map(content);
+			} else {
+				EntityUtils.consume(entity);
+				throw new UnsupportedHttpResponseStatusException(status);
+			}
 		} finally {
 			IOUtils.closeQuietly(content);
 		}
