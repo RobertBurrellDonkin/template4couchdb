@@ -41,7 +41,7 @@ public class CouchDBTemplateTest {
 	IRestClient client;
 	
 	@Mock
-	IDocumentUnmarshaller<String> mapper;
+	IDocumentUnmarshaller<String> unmarshaller;
 	
 	CouchDBTemplate subject;
 	
@@ -61,15 +61,15 @@ public class CouchDBTemplateTest {
 	public void testDelegateGetToRestClient() {
 		String id = "doc/23234";
 		String result = "{some: 'stuff'}";
-		when(this.client.get((String)anyObject(), eq(mapper))).thenReturn(result);
-		assertThat(this.subject.get(id, mapper), is(result));
-		verify(this.client).get(couchDatabase.urlFor(id), mapper);
+		when(this.client.get((String)anyObject(), eq(unmarshaller))).thenReturn(result);
+		assertThat(this.subject.get(id, unmarshaller), is(result));
+		verify(this.client).get(couchDatabase.urlFor(id), unmarshaller);
 	}
 	
 	@Test
 	public void testDelegateVersionToRestClient() {
 		String result = "{some: 'stuff'}";
-		when(this.client.get((String)anyObject(), eq(mapper))).thenReturn(result);
-		assertThat(this.subject.get(couchDatabase.getCouchUrl(), mapper), is(result));
+		when(this.client.get((String)anyObject(), eq(unmarshaller))).thenReturn(result);
+		assertThat(this.subject.get(couchDatabase.getCouchUrl(), unmarshaller), is(result));
 	}
 }
