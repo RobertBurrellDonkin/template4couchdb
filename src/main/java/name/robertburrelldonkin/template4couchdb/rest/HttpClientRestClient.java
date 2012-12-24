@@ -29,7 +29,7 @@ import org.apache.http.conn.ClientConnectionManager;
 
 public class HttpClientRestClient implements IRestClient {
 
-	private final ICodecFactory responseHandlerFactory;
+	private final ICodecFactory codecFactory;
 	
 	private final HttpClient httpClient;
 	
@@ -37,11 +37,11 @@ public class HttpClientRestClient implements IRestClient {
 			final ICodecFactory responseHandlerFactory) {
 		super();
 		this.httpClient = httpClient;
-		this.responseHandlerFactory = responseHandlerFactory;
+		this.codecFactory = responseHandlerFactory;
 	}
 
 	public <T> T get(final String url, final IDocumentUnmarshaller<T> mapper) {
-		final ResponseHandler<T> handler = responseHandlerFactory.handlerFor(mapper);
+		final ResponseHandler<T> handler = codecFactory.handlerFor(mapper);
 		try {
 			return httpClient.execute(new HttpGet(url), handler);
 		} catch (ClientProtocolException e) {
