@@ -28,7 +28,7 @@ import java.net.URI;
 import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
 import name.robertburrelldonkin.template4couchdb.rest.HttpClientRestClient;
 import name.robertburrelldonkin.template4couchdb.rest.HttpClientRestClientException;
-import name.robertburrelldonkin.template4couchdb.rest.IResponseHandlerFactory;
+import name.robertburrelldonkin.template4couchdb.rest.ICodecFactory;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -36,6 +36,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.entity.ContentProducer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,13 +57,16 @@ public class HttpClientRestClientTest {
 	String unmarshalledResponse = "{message: 'whatever'}";
 	
 	@Mock
+	ContentProducer producer;
+	
+	@Mock
 	ResponseHandler<String> handler;
 	
 	@Mock
 	IDocumentUnmarshaller<String> mapper;
 	
 	@Mock
-	IResponseHandlerFactory responseHandlerFactory;
+	ICodecFactory responseHandlerFactory;
 	
 	@Mock
 	HttpClient client;
@@ -126,5 +130,10 @@ public class HttpClientRestClientTest {
 	public void testIOExceptionRethrow() throws Exception {
 		when(client.execute((HttpGet) anyObject(), eq(handler))).thenThrow(new IOException());
 		subject.get(URL, mapper);
+	}
+	
+	@Test
+	public void testPostUsesContentProducer() {
+		
 	}
 }

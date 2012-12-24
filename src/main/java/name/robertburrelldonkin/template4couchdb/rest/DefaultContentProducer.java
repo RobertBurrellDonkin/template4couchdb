@@ -27,7 +27,7 @@ public class DefaultContentProducer<D> implements ContentProducer {
 	private final IDocumentMarshaller<D> marshaller;
 	private final D document;
 	
-	public DefaultContentProducer(final IDocumentMarshaller<D> marshaller, D document) {
+	public DefaultContentProducer(final IDocumentMarshaller<D> marshaller, final D document) {
 		this.marshaller = marshaller;
 		this.document = document;
 	}
@@ -35,5 +35,13 @@ public class DefaultContentProducer<D> implements ContentProducer {
 	@Override
 	public void writeTo(final OutputStream outstream) {
 		marshaller.write(document).to(outstream);
+	}
+
+	public IDocumentMarshaller<D> getMarshaller() {
+		return marshaller;
+	}
+
+	public D getDocument() {
+		return document;
 	}
 }

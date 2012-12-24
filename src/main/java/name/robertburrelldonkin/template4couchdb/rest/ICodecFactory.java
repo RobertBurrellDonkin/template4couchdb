@@ -15,33 +15,15 @@
 */
 package name.robertburrelldonkin.template4couchdb.rest;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import org.apache.http.client.ResponseHandler;
 
+import name.robertburrelldonkin.template4couchdb.IDocumentMarshaller;
 import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
-import name.robertburrelldonkin.template4couchdb.rest.DefaultResponseHandlerFactory;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+public interface ICodecFactory {
 
-@RunWith(MockitoJUnitRunner.class)
-public class DefaultResponseHandlerFactoryTest {
+	<T> ResponseHandler<T> handlerFor(final IDocumentUnmarshaller<T> unmarshaller);
 
-	@Mock
-	IDocumentUnmarshaller<String> mapper;
-	
-	DefaultResponseHandlerFactory subject;
-	
-	@Before
-	public void before() {
-		this.subject = new DefaultResponseHandlerFactory();
-	}
-	
-	@Test
-	public void testThatHandlerForSetsMapper() {
-		assertThat(this.subject.handlerFor(mapper).getMapper(), is(mapper));
-	}
+	<D> DefaultContentProducer<D> producerFor(final IDocumentMarshaller<D> marshaller, final D document);
+
 }

@@ -36,7 +36,7 @@
   		<bean class='name.robertburrelldonkin.template4couchdb.rest.HttpClientRestClient'>
   			<constructor-arg name='httpClient' ref='httpClient'></constructor-arg>
   			<constructor-arg name='responseHandlerFactory' >
-  			<bean class="name.robertburrelldonkin.template4couchdb.rest.DefaultResponseHandlerFactory"></bean>
+  			<bean class="name.robertburrelldonkin.template4couchdb.rest.DefaultCodecFactory"></bean>
   			</constructor-arg>
   		</bean>
   	</constructor-arg>

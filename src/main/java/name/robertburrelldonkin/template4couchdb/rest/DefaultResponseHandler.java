@@ -58,7 +58,7 @@ public class DefaultResponseHandler<T> implements ResponseHandler<T> {
 		return result;
 	}
 
-	public IDocumentUnmarshaller<T> getMapper() {
+	public IDocumentUnmarshaller<T> getUnmarshaller() {
 		return mapper;
 	}
 

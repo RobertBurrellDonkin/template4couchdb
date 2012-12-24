@@ -17,6 +17,7 @@ package name.robertburrelldonkin.template4couchdb.rest;
 
 import java.io.IOException;
 
+import name.robertburrelldonkin.template4couchdb.IDocumentMarshaller;
 import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
 import name.robertburrelldonkin.template4couchdb.IRestClient;
 
@@ -28,12 +29,12 @@ import org.apache.http.conn.ClientConnectionManager;
 
 public class HttpClientRestClient implements IRestClient {
 
-	private final IResponseHandlerFactory responseHandlerFactory;
+	private final ICodecFactory responseHandlerFactory;
 	
 	private final HttpClient httpClient;
 	
 	public HttpClientRestClient(final HttpClient httpClient, 
-			final IResponseHandlerFactory responseHandlerFactory) {
+			final ICodecFactory responseHandlerFactory) {
 		super();
 		this.httpClient = httpClient;
 		this.responseHandlerFactory = responseHandlerFactory;
@@ -56,5 +57,11 @@ public class HttpClientRestClient implements IRestClient {
 		if (connectionManager != null) {
 			connectionManager.shutdown();
 		}
+	}
+
+	@Override
+	public <R, D> R post(String url, IDocumentMarshaller<D> documentMarshaller,
+			D document, IDocumentUnmarshaller<R> responseUnmarshaller) {
+		return null;
 	}
 }
