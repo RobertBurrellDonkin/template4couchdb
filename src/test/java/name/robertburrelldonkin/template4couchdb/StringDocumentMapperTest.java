@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import name.robertburrelldonkin.template4couchdb.DocumentMappingException;
-import name.robertburrelldonkin.template4couchdb.ToStringDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.StringDocumentMapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,22 +33,22 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ToStringDocumentMapperTest {
+public class StringDocumentMapperTest {
 
 	@Mock
 	InputStream source;
 	
-	ToStringDocumentMapper subject;
+	StringDocumentMapper subject;
 	
 	@Before
 	public void before() {
-		this.subject = new ToStringDocumentMapper();
+		this.subject = new StringDocumentMapper();
 	}
 	
 	@Test
 	public void testMap() {
 		String string = "{name: me}";
-		assertThat(this.subject.map(new ByteArrayInputStream(string.getBytes())), is(string));
+		assertThat(this.subject.from(new ByteArrayInputStream(string.getBytes())), is(string));
 	}
 
 	@Test(expected = DocumentMappingException.class)
@@ -56,6 +56,6 @@ public class ToStringDocumentMapperTest {
 		when(source.read()).thenThrow(new IOException());
 		when(source.available()).thenThrow(new IOException());
 		when(source.read((byte[]) anyObject())).thenThrow(new IOException());
-		this.subject.map(source);
+		this.subject.from(source);
 	}
 }

@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.net.URI;
 
-import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
 import name.robertburrelldonkin.template4couchdb.rest.HttpClientRestClient;
 import name.robertburrelldonkin.template4couchdb.rest.HttpClientRestClientException;
 import name.robertburrelldonkin.template4couchdb.rest.IResponseHandlerFactory;
@@ -59,7 +59,7 @@ public class HttpClientRestClientTest {
 	ResponseHandler<String> handler;
 	
 	@Mock
-	IDocumentMapper<String> mapper;
+	IDocumentUnmarshaller<String> mapper;
 	
 	@Mock
 	IResponseHandlerFactory responseHandlerFactory;

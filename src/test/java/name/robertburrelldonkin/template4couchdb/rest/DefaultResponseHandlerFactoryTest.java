@@ -3,7 +3,7 @@ package name.robertburrelldonkin.template4couchdb.rest;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
 import name.robertburrelldonkin.template4couchdb.rest.DefaultResponseHandlerFactory;
 
 import org.junit.Before;
@@ -16,7 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class DefaultResponseHandlerFactoryTest {
 
 	@Mock
-	IDocumentMapper<String> mapper;
+	IDocumentUnmarshaller<String> mapper;
 	
 	DefaultResponseHandlerFactory subject;
 	

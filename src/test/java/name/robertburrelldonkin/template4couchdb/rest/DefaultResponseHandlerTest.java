@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.InputStream;
 
-import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
 import name.robertburrelldonkin.template4couchdb.rest.DefaultResponseHandler;
 import name.robertburrelldonkin.template4couchdb.rest.UnsupportedHttpResponseStatusException;
 
@@ -44,7 +44,7 @@ public class DefaultResponseHandlerTest {
 	HttpResponse response;
 	
 	@Mock
-	IDocumentMapper<String> mapper;
+	IDocumentUnmarshaller<String> mapper;
 	
 	DefaultResponseHandler<String> subject;
 	
@@ -55,7 +55,7 @@ public class DefaultResponseHandlerTest {
 		when(statusLine.getReasonPhrase()).thenReturn(REASON_PHRASE);
 		when(response.getEntity()).thenReturn(entity);
 		when(entity.getContent()).thenReturn(inputStream);
-		when(mapper.map(inputStream)).thenReturn(OUTPUT);
+		when(mapper.from(inputStream)).thenReturn(OUTPUT);
 		
 		this.subject = new DefaultResponseHandler<String>(mapper);
 	}
@@ -63,7 +63,7 @@ public class DefaultResponseHandlerTest {
 	@Test
 	public void testHandleResponseInputsResponseToMapper() throws Exception {
 		this.subject.handleResponse(response);
-		verify(mapper).map(inputStream);
+		verify(mapper).from(inputStream);
 	}
 	
 	@Test
@@ -79,7 +79,7 @@ public class DefaultResponseHandlerTest {
 	
 	@Test
 	public void testHandleResponseClosesStreamAfterException() throws Exception {
-		when(this.mapper.map(inputStream)).thenThrow(new IllegalArgumentException());
+		when(this.mapper.from(inputStream)).thenThrow(new IllegalArgumentException());
 		try {
 			this.subject.handleResponse(response);
 		} catch (IllegalArgumentException e){

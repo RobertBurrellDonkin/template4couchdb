@@ -17,6 +17,6 @@ package name.robertburrelldonkin.template4couchdb;
 
 import java.io.InputStream;
 
-public interface IDocumentMapper<T> {
-	T map(final InputStream source);
+public interface IDocumentUnmarshaller<T> {
+	T from(final InputStream source);
 }

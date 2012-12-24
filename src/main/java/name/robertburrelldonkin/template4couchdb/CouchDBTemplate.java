@@ -31,11 +31,11 @@ public class CouchDBTemplate {
 		restClient.shutdown();
 	}
 	
-	public <T> T get(final String documentId, final IDocumentMapper<T> mapper) {
+	public <T> T get(final String documentId, final IDocumentUnmarshaller<T> mapper) {
 		return restClient.get(database.urlFor(documentId), mapper);
 	}
 	
-	public <T> T version(final IDocumentMapper<T> mapper) {
+	public <T> T version(final IDocumentUnmarshaller<T> mapper) {
 		return restClient.get(database.getCouchUrl(), mapper);
 	}
 }

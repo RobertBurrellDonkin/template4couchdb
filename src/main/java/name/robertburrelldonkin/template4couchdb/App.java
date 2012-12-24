@@ -24,7 +24,7 @@ public class App
     {
     	ApplicationContext context = load();
     	CouchDBTemplate template = context.getBean(CouchDBTemplate.class);
-    	System.out.println(template.version(new ToStringDocumentMapper()));
+    	System.out.println(template.version(new StringDocumentMapper()));
     }
     
     public static  ApplicationContext load() {

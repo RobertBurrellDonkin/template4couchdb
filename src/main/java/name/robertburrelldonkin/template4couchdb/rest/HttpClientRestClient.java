@@ -17,7 +17,7 @@ package name.robertburrelldonkin.template4couchdb.rest;
 
 import java.io.IOException;
 
-import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
 import name.robertburrelldonkin.template4couchdb.IRestClient;
 
 import org.apache.http.client.ClientProtocolException;
@@ -39,7 +39,7 @@ public class HttpClientRestClient implements IRestClient {
 		this.responseHandlerFactory = responseHandlerFactory;
 	}
 
-	public <T> T get(final String url, final IDocumentMapper<T> mapper) {
+	public <T> T get(final String url, final IDocumentUnmarshaller<T> mapper) {
 		final ResponseHandler<T> handler = responseHandlerFactory.handlerFor(mapper);
 		try {
 			return httpClient.execute(new HttpGet(url), handler);

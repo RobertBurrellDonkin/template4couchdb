@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 import name.robertburrelldonkin.template4couchdb.CouchDBTemplate;
 import name.robertburrelldonkin.template4couchdb.CouchDatabase;
 import name.robertburrelldonkin.template4couchdb.CouchDatabaseBuilder;
-import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
 import name.robertburrelldonkin.template4couchdb.IRestClient;
 
 import org.junit.Before;
@@ -41,7 +41,7 @@ public class CouchDBTemplateTest {
 	IRestClient client;
 	
 	@Mock
-	IDocumentMapper<String> mapper;
+	IDocumentUnmarshaller<String> mapper;
 	
 	CouchDBTemplate subject;
 	

@@ -17,7 +17,7 @@ package name.robertburrelldonkin.template4couchdb;
 
 public interface IRestClient {
 
-	<T> T get(final String url, final IDocumentMapper<T> mapper);
+	<T> T get(final String url, final IDocumentUnmarshaller<T> mapper);
 
 	void shutdown();
 }

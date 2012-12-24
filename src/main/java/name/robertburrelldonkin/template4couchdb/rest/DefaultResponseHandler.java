@@ -3,7 +3,7 @@ package name.robertburrelldonkin.template4couchdb.rest;
 import java.io.IOException;
 import java.io.InputStream;
 
-import name.robertburrelldonkin.template4couchdb.IDocumentMapper;
+import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -16,9 +16,9 @@ import org.apache.http.util.EntityUtils;
 
 public class DefaultResponseHandler<T> implements ResponseHandler<T> {
 
-	private final IDocumentMapper<T> mapper;
+	private final IDocumentUnmarshaller<T> mapper;
 	
-	public DefaultResponseHandler(final IDocumentMapper<T> mapper) {
+	public DefaultResponseHandler(final IDocumentUnmarshaller<T> mapper) {
 		super();
 		this.mapper = mapper;
 	}
@@ -32,7 +32,7 @@ public class DefaultResponseHandler<T> implements ResponseHandler<T> {
 		try {
 			final StatusLine status = response.getStatusLine();
 			if (status.getStatusCode() == HttpStatus.SC_OK) {
-				result = mapper.map(content);
+				result = mapper.from(content);
 			} else {
 				EntityUtils.consume(entity);
 				throw new UnsupportedHttpResponseStatusException(status);
@@ -43,7 +43,7 @@ public class DefaultResponseHandler<T> implements ResponseHandler<T> {
 		return result;
 	}
 
-	public IDocumentMapper<T> getMapper() {
+	public IDocumentUnmarshaller<T> getMapper() {
 		return mapper;
 	}
 
