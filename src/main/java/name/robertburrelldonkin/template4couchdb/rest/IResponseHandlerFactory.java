@@ -6,6 +6,6 @@ import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
 
 public interface IResponseHandlerFactory {
 
-	<T> ResponseHandler<T> handlerFor(IDocumentUnmarshaller<T> mapper);
+	<T> ResponseHandler<T> handlerFor(final IDocumentUnmarshaller<T> unmarshaller);
 
 }
