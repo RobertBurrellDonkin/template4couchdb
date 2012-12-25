@@ -25,7 +25,8 @@ public class App
     	ApplicationContext context = load();
     	@SuppressWarnings("unchecked")
 		CouchDBTemplate<String> template = context.getBean(CouchDBTemplate.class);
-    	System.out.println(template.version(new StringDocumentMapper()));
+    	final StringDocumentMapper mapper = new StringDocumentMapper();
+		System.out.println(template.version(mapper));
     }
     
     public static  ApplicationContext load() {
