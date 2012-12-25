@@ -16,23 +16,31 @@
 package name.robertburrelldonkin.template4couchdb;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
 
-public class StringDocumentMapper implements IDocumentMapper<String> {
+public class FromStringOutputWriter implements IOutputWriter {
 
-	public String from(final InputStream source) { 
+	private static final String UTF_8 = "UTF-8";
+	private final String document;
+	
+	public FromStringOutputWriter(String document) {
+		super();
+		this.document = document;
+	}
+
+	@Override
+	public void to(final OutputStream source) {
 		try {
-			return IOUtils.toString(source, "UTF-8");
+			IOUtils.write(document, source, UTF_8);
 		} catch (IOException e) {
 			throw new DocumentMappingException(e);
 		}
 	}
 
-	@Override
-	public FromStringOutputWriter write(final String document) {
-		return new FromStringOutputWriter(document);
+	public String getDocument() {
+		return document;
 	}
 
 }

@@ -52,10 +52,16 @@ public class StringDocumentMapperTest {
 	}
 
 	@Test(expected = DocumentMappingException.class)
-	public void testThatIOExceptionIsRethrown() throws IOException {
+	public void testThatFromIOExceptionIsRethrown() throws IOException {
 		when(source.read()).thenThrow(new IOException());
 		when(source.available()).thenThrow(new IOException());
 		when(source.read((byte[]) anyObject())).thenThrow(new IOException());
 		this.subject.from(source);
+	}
+	
+	@Test
+	public void testThatWriteSetsDocument() {
+		String document = "{hello: 'world'}";
+		assertThat(this.subject.write(document).getDocument(), is(document));
 	}
 }

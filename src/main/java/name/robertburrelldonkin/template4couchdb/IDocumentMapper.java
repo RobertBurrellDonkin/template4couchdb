@@ -15,24 +15,6 @@
 */
 package name.robertburrelldonkin.template4couchdb;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.commons.io.IOUtils;
-
-public class StringDocumentMapper implements IDocumentMapper<String> {
-
-	public String from(final InputStream source) { 
-		try {
-			return IOUtils.toString(source, "UTF-8");
-		} catch (IOException e) {
-			throw new DocumentMappingException(e);
-		}
-	}
-
-	@Override
-	public FromStringOutputWriter write(final String document) {
-		return new FromStringOutputWriter(document);
-	}
-
+public interface IDocumentMapper<D> extends IDocumentMarshaller<D>,
+		IDocumentUnmarshaller<D> {
 }
