@@ -23,26 +23,26 @@
 	</bean>
 
 	<bean id="couchDBTemplate"
-		class="name.robertburrelldonkin.template4couchdb.CouchDBTemplate"
+		class="org.robertburrelldonkin.template4couchdb.CouchDBTemplate"
 		destroy-method="shutdown">
 		<constructor-arg name='restClient'>
 			<bean
-				class='name.robertburrelldonkin.template4couchdb.rest.HttpClientRestClient'>
+				class='org.robertburrelldonkin.template4couchdb.rest.HttpClientRestClient'>
 				<constructor-arg name='httpClient' ref='httpClient'></constructor-arg>
 				<constructor-arg name='responseHandlerFactory'>
 					<bean
-						class="name.robertburrelldonkin.template4couchdb.rest.DefaultCodecFactory"></bean>
+						class="org.robertburrelldonkin.template4couchdb.rest.DefaultCodecFactory"></bean>
 				</constructor-arg>
 			</bean>
 		</constructor-arg>
 		<constructor-arg name='database'>
-			<bean class='name.robertburrelldonkin.template4couchdb.CouchDatabase'>
+			<bean class='org.robertburrelldonkin.template4couchdb.CouchDatabase'>
 				<constructor-arg name='name' value="sample"></constructor-arg>
 			</bean>
 		</constructor-arg>
 		<constructor-arg name='couchResponseUnmarshaller'>
 			<bean
-				class='name.robertburrelldonkin.template4couchdb.StringDocumentMapper'></bean>
+				class='org.robertburrelldonkin.template4couchdb.StringDocumentMapper'></bean>
 		</constructor-arg>
 	</bean>
 
