@@ -41,14 +41,20 @@ public class CouchDBTemplateTest {
 	IRestClient client;
 	
 	@Mock
-	IDocumentUnmarshaller<String> unmarshaller;
+	IDocumentMarshaller<String> documentMarshaller;
 	
-	CouchDBTemplate subject;
+	@Mock
+	IDocumentUnmarshaller<String> couchResponseUnmarshaller;
+	
+	@Mock
+	IDocumentUnmarshaller<String> documentUnmarshaller;
+	
+	CouchDBTemplate<String> subject;
 	
 	@Before
 	public void before() {
 		couchDatabase = CouchDatabaseBuilder.aCouchDatabase().build();
-		this.subject = new CouchDBTemplate(client, couchDatabase);
+		this.subject = new CouchDBTemplate<String>(client, couchDatabase, couchResponseUnmarshaller);
 	}
 	
 	@Test
@@ -61,15 +67,43 @@ public class CouchDBTemplateTest {
 	public void testDelegateGetToRestClient() {
 		String id = "doc/23234";
 		String result = "{some: 'stuff'}";
-		when(this.client.get((String)anyObject(), eq(unmarshaller))).thenReturn(result);
-		assertThat(this.subject.get(id, unmarshaller), is(result));
-		verify(this.client).get(couchDatabase.urlFor(id), unmarshaller);
+		when(this.client.get((String)anyObject(), eq(documentUnmarshaller))).thenReturn(result);
+		assertThat(this.subject.get(id, documentUnmarshaller), is(result));
+		verify(this.client).get(couchDatabase.urlFor(id), documentUnmarshaller);
 	}
 	
 	@Test
 	public void testDelegateVersionToRestClient() {
 		String result = "{some: 'stuff'}";
-		when(this.client.get((String)anyObject(), eq(unmarshaller))).thenReturn(result);
-		assertThat(this.subject.get(couchDatabase.getCouchUrl(), unmarshaller), is(result));
+		when(this.client.get((String)anyObject(), eq(documentUnmarshaller))).thenReturn(result);
+		assertThat(this.subject.get(couchDatabase.getCouchUrl(), documentUnmarshaller), is(result));
+	}
+	
+	@Test
+	public void testDelegatePostToRestClient() {
+		String result = "{some: 'stuff'}";
+		String document = "{number: '6'}";
+		when(this.client.post(
+				(String)anyObject(), 
+				eq(documentMarshaller), 
+				eq(document), 
+				eq(couchResponseUnmarshaller))).thenReturn(result);
+		String intoDirectory = "some/path";
+		this.subject.post(intoDirectory, documentMarshaller, document);
+		verify(this.client).post(couchDatabase.urlFor(intoDirectory), documentMarshaller, document, couchResponseUnmarshaller);
+	}
+
+	
+	@Test
+	public void testPostResult() {
+		String result = "{more: 'stuff'}";
+		String document = "{doc: 'ument'}";
+		when(this.client.post(
+				(String)anyObject(), 
+				eq(documentMarshaller), 
+				eq(document), 
+				eq(couchResponseUnmarshaller))).thenReturn(result);
+		String intoDirectory = "some/path";
+		assertThat(this.subject.post(intoDirectory, documentMarshaller, document), is(result));
 	}
 }

@@ -16,26 +16,39 @@
 package name.robertburrelldonkin.template4couchdb;
 
 
-public class CouchDBTemplate {
+public class CouchDBTemplate<R> {
 
 	private final IRestClient restClient;
 	private final CouchDatabase database;
+	private final IDocumentUnmarshaller<R> couchResponseUnmarshaller;
 
-	public CouchDBTemplate(IRestClient restClient, final CouchDatabase database) {
+	public CouchDBTemplate(final IRestClient restClient, 
+			final CouchDatabase database,
+			final IDocumentUnmarshaller<R> couchResponseUnmarshaller) {
 		super();
 		this.restClient = restClient;
 		this.database = database;
+		this.couchResponseUnmarshaller = couchResponseUnmarshaller;
 	}
 
 	public void shutdown() {
 		restClient.shutdown();
 	}
 	
-	public <T> T get(final String documentId, final IDocumentUnmarshaller<T> mapper) {
-		return restClient.get(database.urlFor(documentId), mapper);
+	public <T> T get(final String documentId, final IDocumentUnmarshaller<T> documentUnmarshaller) {
+		return restClient.get(database.urlFor(documentId), documentUnmarshaller);
 	}
 	
 	public <T> T version(final IDocumentUnmarshaller<T> mapper) {
 		return restClient.get(database.getCouchUrl(), mapper);
+	}
+	
+	public <D> R post(final String intoDirectory, 
+			final IDocumentMarshaller<D> documentMarshaller,
+			final D document) {
+		return restClient.post(
+				database.urlFor(intoDirectory), 
+				documentMarshaller, 
+				document, couchResponseUnmarshaller);
 	}
 }
