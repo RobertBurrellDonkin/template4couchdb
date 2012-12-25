@@ -23,7 +23,8 @@ public class App
     public static void main( String[] args )
     {
     	ApplicationContext context = load();
-    	CouchDBTemplate template = context.getBean(CouchDBTemplate.class);
+    	@SuppressWarnings("unchecked")
+		CouchDBTemplate<String> template = context.getBean(CouchDBTemplate.class);
     	System.out.println(template.version(new StringDocumentMapper()));
     }
     
