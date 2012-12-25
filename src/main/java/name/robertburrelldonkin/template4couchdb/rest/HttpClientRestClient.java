@@ -21,7 +21,6 @@ import name.robertburrelldonkin.template4couchdb.IDocumentMarshaller;
 import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
 import name.robertburrelldonkin.template4couchdb.IRestClient;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -29,6 +28,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.entity.ContentProducer;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.EntityTemplate;
 
 public class HttpClientRestClient implements IRestClient {
@@ -55,7 +55,6 @@ public class HttpClientRestClient implements IRestClient {
 		}
 	}
 
-
 	public void shutdown() {
 		final ClientConnectionManager connectionManager = this.httpClient.getConnectionManager();
 		if (connectionManager != null) {
@@ -67,7 +66,8 @@ public class HttpClientRestClient implements IRestClient {
 	public <R, D> R post(String url, IDocumentMarshaller<D> documentMarshaller,
 			D document, IDocumentUnmarshaller<R> responseUnmarshaller) {
 		final ContentProducer producer = codecFactory.producerFor(documentMarshaller, document);
-		final HttpEntity entity = new EntityTemplate(producer);
+		final EntityTemplate entity = new EntityTemplate(producer);
+		entity.setContentType(ContentType.APPLICATION_JSON.toString());
 		final ResponseHandler<R> handler = codecFactory.handlerFor(responseUnmarshaller);
 		final HttpPost post = new HttpPost(url);
 		post.setEntity(entity);

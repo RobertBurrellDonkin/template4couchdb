@@ -30,6 +30,7 @@ import java.net.URI;
 import name.robertburrelldonkin.template4couchdb.IDocumentMarshaller;
 import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
 
+import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -38,6 +39,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.entity.ContentProducer;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.EntityTemplate;
 import org.junit.Before;
 import org.junit.Test;
@@ -203,4 +205,13 @@ public class HttpClientRestClientTest {
 		verify(producer).writeTo(stream);
 	}
 
+	@Test
+	public void testPostMediaType() throws Exception {
+		ArgumentCaptor<HttpPost> argument = ArgumentCaptor.forClass(HttpPost.class);
+		this.subject.post(URL, documentMarshaller, document, responseUnmarshaller);
+		verify(client).execute(argument.capture(), eq(handler));
+		final ContentType contentType = ContentType.get(argument.getValue().getEntity());
+		assertThat(contentType.getMimeType(), is("application/json")); 
+		assertThat(contentType.getCharset(), is(Consts.UTF_8));
+	}
 }
