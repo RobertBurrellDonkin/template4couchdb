@@ -27,6 +27,7 @@ public class App
 		CouchDBTemplate<String> template = context.getBean(CouchDBTemplate.class);
     	final StringDocumentMapper mapper = new StringDocumentMapper();
 		System.out.println(template.version(mapper));
+		System.out.println(template.post(mapper, "{hello: 'world'}"));
     }
     
     public static  ApplicationContext load() {

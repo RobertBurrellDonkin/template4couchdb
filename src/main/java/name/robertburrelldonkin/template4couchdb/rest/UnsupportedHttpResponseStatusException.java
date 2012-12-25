@@ -28,9 +28,9 @@ public class UnsupportedHttpResponseStatusException extends RuntimeException {
 		this(status.getReasonPhrase(), status.getStatusCode());
 	}
 
-	public UnsupportedHttpResponseStatusException(String reasonPhrase,
-			int statusCode) {
-		super();
+	public UnsupportedHttpResponseStatusException(final String reasonPhrase,
+			final int statusCode) {
+		super("CouchDB returned an unsupported HTTP status code " + statusCode + "(" + reasonPhrase + ")");
 		this.reasonPhrase = reasonPhrase;
 		this.statusCode = statusCode;
 	}
