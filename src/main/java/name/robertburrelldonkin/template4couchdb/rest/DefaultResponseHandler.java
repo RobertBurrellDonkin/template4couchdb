@@ -46,7 +46,7 @@ public class DefaultResponseHandler<T> implements ResponseHandler<T> {
 		final T result;
 		try {
 			final StatusLine status = response.getStatusLine();
-			if (status.getStatusCode() == HttpStatus.SC_OK) {
+			if (isSupported(status.getStatusCode())) {
 				result = mapper.from(content);
 			} else {
 				EntityUtils.consume(entity);
@@ -54,6 +54,20 @@ public class DefaultResponseHandler<T> implements ResponseHandler<T> {
 			}
 		} finally {
 			IOUtils.closeQuietly(content);
+		}
+		return result;
+	}
+
+	private boolean isSupported(final int statusCode) {
+		final boolean result;
+		switch (statusCode){
+		case HttpStatus.SC_OK:
+		case HttpStatus.SC_CREATED:
+			result =true;
+			break;
+		default:
+			result = false;
+			break;
 		}
 		return result;
 	}
