@@ -15,12 +15,16 @@
 */
 package name.robertburrelldonkin.template4couchdb.rest;
 
+import static java.text.MessageFormat.*;
+
 import org.apache.http.StatusLine;
 
 public class UnsupportedHttpResponseStatusException extends RuntimeException {
 
 	private static final long serialVersionUID = -753235933346384114L;
 
+	private static final String MESSAGE_TEMPLATE = "CouchDB returned an unsupported HTTP status code {0} [{1}]";
+	
 	private final String reasonPhrase;
 	private int statusCode;
 	
@@ -30,7 +34,7 @@ public class UnsupportedHttpResponseStatusException extends RuntimeException {
 
 	public UnsupportedHttpResponseStatusException(final String reasonPhrase,
 			final int statusCode) {
-		super("CouchDB returned an unsupported HTTP status code " + statusCode + "(" + reasonPhrase + ")");
+		super(format(MESSAGE_TEMPLATE, statusCode, reasonPhrase));
 		this.reasonPhrase = reasonPhrase;
 		this.statusCode = statusCode;
 	}

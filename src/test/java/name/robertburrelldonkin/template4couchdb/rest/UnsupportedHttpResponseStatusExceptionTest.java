@@ -49,7 +49,7 @@ public class UnsupportedHttpResponseStatusExceptionTest {
 	
 	@Test
 	public void testMessage() {
-		assertThat(subject.getMessage(), is("CouchDB returned an unsupported HTTP status code " + STATUS_CODE + "(" + REASON_PHRASE + ")"));
+		assertThat(subject.getMessage(), is("CouchDB returned an unsupported HTTP status code " + STATUS_CODE + " [" + REASON_PHRASE + "]"));
 	}
 
 }
