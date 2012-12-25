@@ -46,9 +46,19 @@ public class CouchDBTemplate<R> {
 	public <D> R post(final String intoDirectory, 
 			final IDocumentMarshaller<D> documentMarshaller,
 			final D document) {
+		return postTo(database.urlFor(intoDirectory), documentMarshaller, document);
+	}
+
+	private <D> R postTo(final String url,
+			final IDocumentMarshaller<D> documentMarshaller, final D document) {
 		return restClient.post(
-				database.urlFor(intoDirectory), 
+				url, 
 				documentMarshaller, 
 				document, couchResponseUnmarshaller);
+	}
+
+	public <D> R post(IDocumentMarshaller<D> documentMarshaller,
+			D document) {
+		return postTo(database.getDataBaseUrl(), documentMarshaller, document);
 	}
 }

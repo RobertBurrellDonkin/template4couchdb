@@ -106,4 +106,19 @@ public class CouchDBTemplateTest {
 		String intoDirectory = "some/path";
 		assertThat(this.subject.post(intoDirectory, documentMarshaller, document), is(result));
 	}
+	
+	
+	@Test
+	public void testConveniencePost() {
+		String result = "{yet: 'more stuff'}";
+		String document = "{high: '5'}";
+		when(this.client.post(
+				(String)anyObject(), 
+				eq(documentMarshaller), 
+				eq(document), 
+				eq(couchResponseUnmarshaller))).thenReturn(result);
+		this.subject.post(documentMarshaller, document);
+		verify(this.client).post(couchDatabase.getDataBaseUrl(), documentMarshaller, document, couchResponseUnmarshaller);
+	}
+
 }
