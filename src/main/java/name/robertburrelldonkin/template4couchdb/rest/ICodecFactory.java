@@ -16,6 +16,7 @@
 package name.robertburrelldonkin.template4couchdb.rest;
 
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.entity.ContentProducer;
 
 import name.robertburrelldonkin.template4couchdb.IDocumentMarshaller;
 import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
@@ -24,6 +25,5 @@ public interface ICodecFactory {
 
 	<T> ResponseHandler<T> handlerFor(final IDocumentUnmarshaller<T> unmarshaller);
 
-	<D> DefaultContentProducer<D> producerFor(final IDocumentMarshaller<D> marshaller, final D document);
-
+	<D> ContentProducer producerFor(final IDocumentMarshaller<D> marshaller, final D document);
 }

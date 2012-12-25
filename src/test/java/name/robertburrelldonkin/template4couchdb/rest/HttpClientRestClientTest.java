@@ -16,6 +16,7 @@
 package name.robertburrelldonkin.template4couchdb.rest;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
@@ -23,20 +24,21 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 
+import name.robertburrelldonkin.template4couchdb.IDocumentMarshaller;
 import name.robertburrelldonkin.template4couchdb.IDocumentUnmarshaller;
-import name.robertburrelldonkin.template4couchdb.rest.HttpClientRestClient;
-import name.robertburrelldonkin.template4couchdb.rest.HttpClientRestClientException;
-import name.robertburrelldonkin.template4couchdb.rest.ICodecFactory;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.entity.ContentProducer;
+import org.apache.http.entity.EntityTemplate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,6 +58,18 @@ public class HttpClientRestClientTest {
 
 	String unmarshalledResponse = "{message: 'whatever'}";
 	
+	String document = "{hello:'world'}";
+	
+	
+	@Mock
+	OutputStream stream;
+	
+	@Mock
+	IDocumentMarshaller<String> documentMarshaller;
+	
+	@Mock
+	IDocumentUnmarshaller<String> responseUnmarshaller;
+	
 	@Mock
 	ContentProducer producer;
 	
@@ -66,7 +80,7 @@ public class HttpClientRestClientTest {
 	IDocumentUnmarshaller<String> mapper;
 	
 	@Mock
-	ICodecFactory responseHandlerFactory;
+	ICodecFactory codecFactory;
 	
 	@Mock
 	HttpClient client;
@@ -78,9 +92,12 @@ public class HttpClientRestClientTest {
 	
 	@Before
 	public void before() throws Exception {
-		this.subject = new HttpClientRestClient(client, responseHandlerFactory);
 		when(handler.handleResponse((HttpResponse) anyObject())).thenReturn(unmarshalledResponse);
-		when(responseHandlerFactory.handlerFor(mapper)).thenReturn(handler);
+		when(codecFactory.handlerFor(mapper)).thenReturn(handler);
+		when(codecFactory.handlerFor(responseUnmarshaller)).thenReturn(handler);
+		when(codecFactory.producerFor(documentMarshaller, document)).thenReturn(producer);
+
+		this.subject = new HttpClientRestClient(client, codecFactory);
 	}
 	
 	@Test
@@ -99,7 +116,7 @@ public class HttpClientRestClientTest {
 	@Test
 	public void testGetUsesResponseHandler() {
 		subject.get(URL, mapper);
-		verify(responseHandlerFactory).handlerFor(mapper);
+		verify(codecFactory).handlerFor(mapper);
 	}
 
 	@Test
@@ -121,19 +138,69 @@ public class HttpClientRestClientTest {
 	}
 	
 	@Test(expected = HttpClientRestClientException.class)
-	public void testClientProcotolExceptionRethrow() throws Exception {
+	public void testGetClientProcotolExceptionRethrow() throws Exception {
 		when(client.execute((HttpGet) anyObject(), eq(handler))).thenThrow(new ClientProtocolException());
 		subject.get(URL, mapper);
 	}
 	
 	@Test(expected = HttpClientRestClientException.class)
-	public void testIOExceptionRethrow() throws Exception {
+	public void testGetIOExceptionRethrow() throws Exception {
 		when(client.execute((HttpGet) anyObject(), eq(handler))).thenThrow(new IOException());
 		subject.get(URL, mapper);
 	}
 	
 	@Test
-	public void testPostUsesContentProducer() {
-		
+	public void testPostBuildsContentProducer() {
+		this.subject.post(URL, documentMarshaller, document, responseUnmarshaller);
+		verify(this.codecFactory).producerFor(documentMarshaller, document);
 	}
+
+	@Test
+	public void testPostBuildsResponseHandler() {
+		this.subject.post(URL, documentMarshaller, document, responseUnmarshaller);
+		verify(this.codecFactory).handlerFor(responseUnmarshaller);
+	}
+	
+	@Test
+	public void testPostUrl() throws Exception {
+		ArgumentCaptor<HttpPost> argument = ArgumentCaptor.forClass(HttpPost.class);
+		this.subject.post(URL, documentMarshaller, document, responseUnmarshaller);
+		verify(client).execute(argument.capture(), eq(handler));
+		URI uri = argument.getValue().getURI();
+		assertThat(PORT, is(uri.getPort()));
+		assertThat(HOST, is(uri.getHost()));
+		assertThat(PROTOCOL, is(uri.getScheme()));
+		assertThat(PATH, is(uri.getPath()));
+	}
+
+	@Test(expected = HttpClientRestClientException.class)
+	public void testPostClientProcotolExceptionRethrow() throws Exception {
+		when(client.execute((HttpPost) anyObject(), eq(handler))).thenThrow(new ClientProtocolException());
+		this.subject.post(URL, documentMarshaller, document, responseUnmarshaller);
+	}
+	
+	@Test(expected = HttpClientRestClientException.class)
+	public void testPostIOExceptionRethrow() throws Exception {
+		when(client.execute((HttpPost) anyObject(), eq(handler))).thenThrow(new IOException());
+		this.subject.post(URL, documentMarshaller, document, responseUnmarshaller);
+	}
+
+	@Test
+	public void testPostResponse() throws Exception {
+		when(client.execute((HttpGet) anyObject(), eq(handler))).thenReturn(unmarshalledResponse);
+		assertThat(this.subject.post(URL, documentMarshaller, document, responseUnmarshaller), 
+				is(unmarshalledResponse));
+	}
+	
+	@Test
+	public void testPostContent() throws Exception {
+		ArgumentCaptor<HttpPost> argument = ArgumentCaptor.forClass(HttpPost.class);
+		this.subject.post(URL, documentMarshaller, document, responseUnmarshaller);
+		verify(client).execute(argument.capture(), eq(handler));
+		EntityTemplate entity = (EntityTemplate) argument.getValue().getEntity() ;
+		assertNotNull(entity);
+		entity.writeTo(stream);
+		verify(producer).writeTo(stream);
+	}
+
 }
